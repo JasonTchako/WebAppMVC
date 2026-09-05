@@ -1,0 +1,36 @@
+@model WebAppMVC.Models.Customer
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+
+	<h4>Customer</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">Name</dt>
+		<dd class="col-sm-10">@Model.Name</dd>
+
+		<dt class="col-sm-2">Email</dt>
+		<dd class="col-sm-10">@Model.Email</dd>
+
+		<dt class="col-sm-2">Phone</dt>
+		<dd class="col-sm-10">@Model.Phone</dd>
+
+		<dt class="col-sm-2">Address</dt>
+		<dd class="col-sm-10">@Model.Address</dd>
+
+		<dt class="col-sm-2">City</dt>
+		<dd class="col-sm-10">@Model.City</dd>
+
+		<dt class="col-sm-2">Province</dt>
+		<dd class="col-sm-10">@Model.Province</dd>
+
+		<dt class="col-sm-2">Country</dt>
+		<dd class="col-sm-10">@Model.Country</dd>
+	</dl>
+</div>
+
+	<a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+	<a class="btn btn-link" asp-action="Index">Back to List</a>
+</div>
