@@ -16,9 +16,10 @@ namespace WebAppMVC.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString = "") //searchString parametre recupere depuis le formulaire pour faire la recherche
         {
-            return View(await _context.Customer.ToListAsync());
+            var query = _context.Customer.Where(c => c.Name.Contains(searchString) || c.Email.Contains(searchString) || c.Phone.Contains(searchString));
+            return View(await query.ToListAsync());
         }
 
         // GET: Customers/Details/5
