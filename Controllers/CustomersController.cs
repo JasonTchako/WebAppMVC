@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Data;
@@ -16,7 +17,7 @@ namespace WebAppMVC.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string searchString = "") //searchString parametre recupere depuis le formulaire pour faire la recherche
+        public async Task<IActionResult> Index(string searchString = "") //searchString, Parameter retrieved from the form to perform the search
         {
             var query = _context.Customer.Where(c => c.Name.Contains(searchString) || c.Email.Contains(searchString) || c.Phone.Contains(searchString));
             return View(await query.ToListAsync());
@@ -35,6 +36,7 @@ namespace WebAppMVC.Controllers
         }
 
         // GET: Customers/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -43,6 +45,7 @@ namespace WebAppMVC.Controllers
         // POST: Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone,Address,City,Province,Country")] Customer customer)
         {
             if (ModelState.IsValid)
@@ -55,6 +58,7 @@ namespace WebAppMVC.Controllers
         }
 
         // GET: Customers/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -67,6 +71,7 @@ namespace WebAppMVC.Controllers
         // POST: Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone,Address,City,Province,Country")] Customer customer)
         {
             if (id != customer.Id) return NotFound();
@@ -89,6 +94,7 @@ namespace WebAppMVC.Controllers
         }
 
         // GET: Customers/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -103,6 +109,7 @@ namespace WebAppMVC.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _context.Customer.FindAsync(id);

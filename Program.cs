@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Data;
 
@@ -9,6 +10,16 @@ builder.Services.AddControllersWithViews();
 // Configure Entity Framework Core with SQL Server
 builder.Services.AddDbContext<WebAppMVCContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WebAppMVCContext")));
+
+//build the authentication services
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10); // Set the cookie expiration time
+        options.SlidingExpiration = true; // Enable sliding expiration
+        options.LoginPath = "/Users/Login"; // Set the login path
+        options.AccessDeniedPath = "/Forbidden/"; // Set the access denied path
+    });
 
 var app = builder.Build();
 
@@ -23,6 +34,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

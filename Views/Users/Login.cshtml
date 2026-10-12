@@ -1,0 +1,60 @@
+﻿@model WebAppMVC.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h1>Login</h1>
+
+@* The form sends the login information to the Login POST action. *@
+<form asp-action="Login" method="post">
+
+    @* Generates an anti-forgery token to help protect against CSRF attacks. *@
+    @Html.AntiForgeryToken()
+
+    @* Hidden field used to preserve the URL the user originally wanted to access.
+       ViewData["ReturnUrl"] is populated by the Login GET action.
+       When the form is submitted, the browser sends this value to the POST action. *@
+    <input type="hidden"
+           name="returnUrl"
+           value="@(ViewData["ReturnUrl"])" />
+
+    @* Displays validation errors, including general login errors. *@
+    <div asp-validation-summary="All"
+         class="text-danger">
+    </div>
+
+    <div class="form-group">
+
+        @* Generates a label associated with the Username property of LoginModel. *@
+        <label asp-for="Username" class="control-label"></label>
+
+        @* Generates an input field bound to LoginModel.Username. *@
+        <input asp-for="Username" class="form-control" />
+
+        @* Displays validation errors specific to the Username property. *@
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+
+        @* Generates a label associated with the Password property of LoginModel. *@
+        <label asp-for="Password" class="control-label"></label>
+
+        @* The password input masks the characters entered by the user. *@
+        <input asp-for="Password"
+               class="form-control"
+               type="password" />
+
+        @* Displays validation errors specific to the Password property. *@
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    @* Submits the form to the Login POST action. *@
+    <button type="submit" class="btn btn-outline-primary">
+        Login
+    </button>
+
+</form>
